@@ -6,21 +6,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-      
+      - uses: actions/checkout@v4
       - name: Install ESPHome
-        run: |
-          python -m pip install --upgrade pip
-          pip install esphome
-      
-      - name: List files to debug
-        run: ls -la
-      
-      - name: Compile all yaml files
-        run: esphome compile *.yaml
-      
-      - name: Upload firmware artifact
+        run: pip install esphome
+      - name: Compile firmware
+        run: esphome compile xiaozhi.yaml  <-- yahan naam fix kar diya
+      - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: firmware
