@@ -13,7 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build ESPHome
-        uses: esphome/esphome-action@v1
+      
+      - name: Install ESPHome
+        run: |
+          python -m pip install --upgrade pip
+          pip install esphome
+
+      - name: Compile firmware
+        run: esphome compile ${{ inputs.yaml_file }}
+
+      - name: Upload firmware artifact
+        uses: actions/upload-artifact@v4
         with:
-          yaml_file: ${{ inputs.yaml_file }}
+          name: firmware
+          path: .esphome/build/*/firmware.bin
