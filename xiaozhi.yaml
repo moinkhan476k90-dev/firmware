@@ -1,0 +1,16 @@
+esphome:
+  name: xiaozhi-skr
+  friendly_name: Xiaozhi SKR
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+wifi:
+  ssid: "Ammar_2.4GHz"
+  password: "10101010"
+
+logger:
+api:
+ota:
