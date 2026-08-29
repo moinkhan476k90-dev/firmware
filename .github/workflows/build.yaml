@@ -3,7 +3,7 @@ name: Build ESPHome firmware
 on:
   workflow_dispatch:
     inputs:
-      config:
+      yaml_file:
         description: 'Config file'
         required: true
         default: 'xiaozhi-skr.yaml'
@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: esphome/build-action@v1
+      - name: Build ESPHome
+        uses: esphome/esphome-action@v1
         with:
-          config: ${{ inputs.config }}
+          yaml_file: ${{ inputs.yaml_file }}
