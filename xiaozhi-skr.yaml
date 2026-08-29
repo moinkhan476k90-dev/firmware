@@ -1,0 +1,75 @@
+esphome:
+  name: xiaozhi-skr
+  friendly_name: "Xiaozhi SKR"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+wifi:
+  ssid: "Ammar_2.4GHz"
+  password: "10101010"
+  ap:
+    ssid: "Xiaozhi-SKR Hotspot"
+    password: "12345678"
+
+logger:
+api:
+ota:
+
+i2s_audio:
+  i2s_lrclk_pin: GPIO25
+  i2s_bclk_pin: GPIO26
+
+microphone:
+    - platform: i2s_audio
+    id: xiaozhi_mic
+    i2s_audio_id: i2s_audio
+    i2s_din_pin: GPIO32
+    pdm: false
+
+speaker:
+    - platform: i2s_audio
+    id: xiaozhi_speaker
+    i2s_audio_id: i2s_audio
+    i2s_dout_pin: GPIO22
+    mode: mono
+    dac_type: external
+
+media_player:
+    - platform: i2s_audio
+    id: xiaozhi_player
+    name: "Xiaozhi Speaker"
+    speaker: xiaozhi_speaker
+    volume_max: 0.5
+
+binary_sensor:
+    - platform: gpio
+    pin: 
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: true
+    name: "Talk Button"
+    on_press:
+            - voice_assistant.start
+    on_release:
+            - voice_assistant.stop
+
+voice_assistant:
+  id: va
+  microphone: xiaozhi_mic
+  media_player: xiaozhi_player
+  noise_suppression_level: 2
+  auto_gain: 31dB
+
+output:
+    - platform: gpio
+    pin: GPIO2
+    id: led_output
+    
+light:
+    - platform: binary
+    id: led
+    output: led_output
+    name: "Status LED"
